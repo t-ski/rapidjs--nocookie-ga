@@ -1,0 +1,19 @@
+{
+  "name": <plugin-name>,
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "description": <plugin-description>,
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "./node_modules/.bin/eslint --fix src/"
+  },
+  "keywords": [
+    "rapidjs",
+    "plug-in"
+  ],
+  "devDependencies": {
+    "eslint": "^7.21.0"
+  },
+  "license": "MIT"
+  <additional-fields>
+}
