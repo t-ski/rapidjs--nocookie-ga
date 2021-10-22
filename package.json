@@ -1,8 +1,8 @@
 {
-  "name": <plugin-name>,
+  "name": "@t-ski/rapidjs--ga",
   "version": "1.0.0",
-  "main": "src/app.js",
-  "description": <plugin-description>,
+  "main": "dist/app.js",
+  "description": "rapidJS plug-in providing a Cookie-less integration of Google Analytics into web pages.",
   "scripts": {
     "start": "node ./src/app.js",
     "test": "./node_modules/.bin/eslint --fix src/"
@@ -11,9 +11,23 @@
     "rapidjs",
     "plug-in"
   ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t-ski/rapidjs--ga.git"
+  },
+  "author": "Thassilo Martin Schiepanski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/t-ski/rapidjs--ga/issues"
+  },
+  "homepage": "https://github.com/t-ski/rapidjs--ga#readme",
   "devDependencies": {
     "eslint": "^7.21.0"
   },
-  "license": "MIT"
-  <additional-fields>
+  "publishConfig": {
+    "access": "public"
+  }
 }

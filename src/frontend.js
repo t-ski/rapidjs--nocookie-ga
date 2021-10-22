@@ -1,23 +1,56 @@
-/*
- * Access the config object as passed to the frontend module initialization via identifier "config"
- */
-
 document.addEventListener("DOMContentLoaded", _ => {
-	// TODO: Use endpoint
-	rapidJS.useEndpoint(reqObj)
-	.then(res => {
-		// TODO: Handle successful response body
-	}).catch(err => {
-		// TODO: Handle error
-	});
+	rapidJS.useEndpoint()
+		.then(res => {
+			bind(res);
+
+			const appScript = document.createElement("script");
+			appScript.setAttribute("src", "https://www.google-analytics.com/analytics.js");
+			document.head.appendChild(appScript);
+		});
 });
 
-// TODO: Optionally use public scope
-/* 
- *Example:
+function bind(id) {
+	ga = ga || (_ => {(ga.q = ga.q || []).push(arguments);});
+	ga.l = +(new Date());
 
-PUBLIC.method = function() {
-	return "Hello world";
+	scriptHasLoaded = true;
+
+	ga("create", config.trackingId, {
+		"storage": "none",
+		"storeGac": false,
+		"clientId": id
+	});
+	ga("set", "anonymizeIp", true);
+	ga("send", "pageview");
+
+	calls.forEach(call => {
+		console.log(call);
+		ga(call.key, call.value, call.options);
+	});
+}
+
+
+let ga;
+let scriptHasLoaded = false;
+
+const calls = [];
+const restrictedKeys = ["create", "set", "send"];
+
+
+PUBLIC = (key, value, options) => {
+	if(restrictedKeys.includes(key)) {
+		return;
+	}
+
+	if(scriptHasLoaded) {
+		ga(key, value, options);
+
+		return;
+	}
+
+	calls.push({
+		key,
+		value,
+		options
+	});
 };
-
- */

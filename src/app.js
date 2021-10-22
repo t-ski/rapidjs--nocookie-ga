@@ -1,22 +1,29 @@
 /**
- * TODO: Add plug-in description.
+ * Plug-in providing dynamic content loading functionality for dynamic page environments.
  * 
- * (c) "author / copyright holder"
+ * (c) Thassilo Martin Schiepanski
  */
 
-// Object providing syntactical literals to be used among plug-in files
-const config = {};	// TODO: Use or remove accordingly
 
-// TODO: Optionally use private scope
+const crypto = require("crypto");
 
-// Core interface connection
+
+function generateId(ip) {
+	const validityInterval = Math.round(new Date() / 1000 / 3600 / 24 / 4);
+	const clientIdSource = `${ip};${validityInterval}`;
+    
+	return crypto.createHash("md5").update(clientIdSource).digest("hex");
+}
+
+
 module.exports = rapidJS => {
 	// Initialize feature frontend module
-	rapidJS.initFrontendModule("./frontend", config);	// TODO: Use frontend module initialization (if using frontend module)
-	
-	rapidJS.setEndpoint(body => {
-		// TODO: Define endpoint
+	rapidJS.initFrontendModule("./frontend", {
+		trackingId: rapidJS.readConfig("trackingId")
+	});
 
-        return true;
-    });
+	// Add POST route to retrieve specific content
+	rapidJS.setEndpoint((_, req) => {
+		return generateId(req.ip);
+	});
 };
