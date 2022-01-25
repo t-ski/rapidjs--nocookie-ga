@@ -1,5 +1,8 @@
 /**
- * Plug-in providing dynamic content loading functionality for dynamic page environments.
+ * Plug-in providing Google Analytics functionality (via Tag) bypassing the
+ * implicit use of cookies.
+ * Interesting for pages to be EU GDPR compliant without the need of explicit
+ * notification.
  * 
  * (c) Thassilo Martin Schiepanski
  */
@@ -8,22 +11,17 @@
 const crypto = require("crypto");
 
 
-function generateId(ip) {
+$this.clientModule("./client", {
+	trackingId: $this.pluginConfig.trackingId
+});
+
+
+$this.endpoint((_, req) => {
 	const validityInterval = Math.round(new Date() / 1000 / 3600 / 24 / 4);
-	const clientIdSource = `${ip};${validityInterval}`;
-    
-	return crypto.createHash("md5").update(clientIdSource).digest("hex");
-}
-
-
-module.exports = rapidJS => {
-	// Initialize feature frontend module
-	rapidJS.initFrontendModule("./frontend", {
-		trackingId: rapidJS.readConfig("trackingId")
-	});
-
-	// Add POST route to retrieve specific content
-	rapidJS.setEndpoint((_, req) => {
-		return generateId(req.ip);
-	});
-};
+	const clientIdSource = `${req.ip};${validityInterval}`;
+	
+	return crypto
+	.createHash("md5")
+	.update(clientIdSource)
+	.digest("hex");
+});
