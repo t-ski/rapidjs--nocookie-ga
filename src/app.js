@@ -22,7 +22,7 @@ $this.endpoint((_, req) => {
 	const clientIdSource = `${req.ip};${validityInterval}`;
 	
 	return crypto
-	.createHash("md5")
-	.update(clientIdSource)
-	.digest("hex");
+		.createHash("md5")
+		.update(clientIdSource)
+		.digest("hex");
 });

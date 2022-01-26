@@ -27,16 +27,16 @@ document.addEventListener("DOMContentLoaded", _ => {
 
 				// Hardcoded (serialized) calls
 				$this.SHARED.serializedEvents
-				.forEach(event => {
-					if(!event.event || !event.key) {
-						console.error(new SyntaxError(`Invalid serialized event`));
-						console.log(event);
+					.forEach(event => {
+						if(!event.event || !event.key) {
+							console.error(new SyntaxError("Invalid serialized event"));
+							console.log(event);
 						
-						return;
-					}
+							return;
+						}
 
-					infGa(event.event, event.key, event.value || null);
-				});
+						infGa(event.event, event.key, event.value || null);
+					});
 			});
 
 			const appScript = document.createElement("script");
@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", _ => {
  * Google Analytics interface object.
  */
 let ga;	// To be assigned (global/window to private module reference)
-window.ga = window.ga || function() { (window.ga.q = window.ga.q || []).push(arguments) };
-window.ga.l = +(new Date());;
+window.ga = window.ga || function() { (window.ga.q = window.ga.q || []).push(arguments); };
+window.ga.l = +(new Date());
 
 /**
  * Perform a custom GA event call.

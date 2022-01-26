@@ -4,8 +4,10 @@
   "main": "dist/app.js",
   "description": "rapidJS plug-in providing a mechanism for cookie-less integration of Google Analytics into web documents.",
   "scripts": {
-    "start": "node ./src/app.js",
-    "test": "./node_modules/.bin/eslint --fix src/"
+    "start": "node ./dist/app.js",
+    "test": "./node_modules/.bin/eslint --fix src/",
+    "build": "npm run test && node ../../finalize-js/build.js",
+    "release": "npm run build && np"
   },
   "keywords": [
     "rapidjs",
