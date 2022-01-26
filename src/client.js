@@ -12,23 +12,23 @@ const config = {
 document.addEventListener("DOMContentLoaded", _ => {
 	$this.endpoint()
 		.then(id => {
-			ga = ga || (_ => {(ga.q = ga.q || []).push(arguments);});
-			ga.l = +(new Date());
+			window.ga(_ => {
+				// Public to private reference "toggle"
+				ga = window.ga;
+				delete window.ga;
 
-			ga("create", $this.SHARED.trackingId, {
-				"storage": "none",
-				"storeGac": false,
-				"clientId": id
-			});
-			ga("set", "anonymizeIp", true);
+				// Fundamental calls
+				ga("create", $this.SHARED.trackingId, {
+					"storage": "none",
+					"storeGac": false,
+					"clientId": id
+				});
+				ga("set", "anonymizeIp", true);
 
-			/**
-			 * GA lib load listener.
-			 */
-			ga(_ => {
-				// Perform queued event calls
-				callsQueue.forEach(call => {
-					ga(call.key, call.value, call.options);
+				// Hardcoded (serialized) calls
+				$this.SHARED.serializedEvents
+				.forEach(event => {
+					infGa(event.event, event.key, event.value || null);
 				});
 			});
 
@@ -42,37 +42,25 @@ document.addEventListener("DOMContentLoaded", _ => {
 /**
  * Google Analytics interface object.
  */
-let ga;
-/**
- * Custom GA event calls to be passed through to the interface
- * once has loaded. Work as a queue.
- */
-const callsQueue = [];
-
+let ga;	// To be assigned (global/window to private module reference)
+window.ga = window.ga || function() { (window.ga.q = window.ga.q || []).push(arguments) };
+window.ga.l = +(new Date());;
 
 /**
  * Perform a custom GA event call.
  * @param {String} event Event name (e.g. "send")
  * @param {String} key Affected key
- * @param {*} value Value
+ * @param {*} [value] Value
  */
-$this.PUBLIC = (event, key, value) => {
-	if(config.restrictedKeys.includes(`${event}:${key}`)) {
+function infGa(event, key, value) {
+	if(config.restrictedCalls.includes(`${event}:${key}`)) {
 		// Restricted key
 		throw new SyntaxError(`Restricted interface call (event: '${event}', key: '${key}')`);
 	}
+	
+	// GA lib already loaded (instant call)
+	(ga || window.ga)(event, key, value);
+}
 
-	if(!ga) {
-		// GA lib already loaded (instant call)
-		ga(event, key, value);
 
-		return;
-	}
-
-	// Queue call as GA lib not yet loaded (deferred call)
-	callsQueue.push({
-		event,
-		key,
-		value
-	});
-};
+$this.PUBLIC = infGa;

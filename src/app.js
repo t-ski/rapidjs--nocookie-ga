@@ -12,7 +12,8 @@ const crypto = require("crypto");
 
 
 $this.clientModule("./client", {
-	trackingId: $this.pluginConfig.trackingId
+	trackingId: $this.pluginConfig.trackingId,
+	serializedEvents: $this.pluginConfig.serializedEvents || []
 });
 
 
