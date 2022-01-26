@@ -1,6 +1,6 @@
 {
   "name": "@t-ski/rapidjs--nocookie-ga",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/app.js",
   "description": "rapidJS plug-in providing a mechanism for cookie-less integration of Google Analytics into web documents.",
   "scripts": {
