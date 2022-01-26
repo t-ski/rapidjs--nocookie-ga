@@ -10,7 +10,7 @@ npm install @t-ski/rapidjs--nocookie-ga
 
 ## Concept
 
-The Plug-in implements an automatic integration of Google Analytics (via tag) given an indivudal Tracking-ID and custom events.
+The Plug-in implements an automatic integration of Google Analytics (via tag) given an indivudal Tracking-ID and custom events. Client identification is provided with a validity interval hashed along the related IP (md5). 
 
 ## Integration
 
@@ -58,4 +58,12 @@ Static, generelly effective events can also be configured in the Plug-in configu
         value?: "<value>"
     }
 ]
+```
+
+## Identification validity
+
+By default a client is – provided their respective IP does not change for any reason – identified for seven days before their ID changes. The validity interval can be altered in days from the respective configuration:
+
+``` js
+"@t-ski/rapidjs--nocookie-ga"."validity": <duration-in-days>
 ```

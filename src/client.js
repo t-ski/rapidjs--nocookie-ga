@@ -28,6 +28,13 @@ document.addEventListener("DOMContentLoaded", _ => {
 				// Hardcoded (serialized) calls
 				$this.SHARED.serializedEvents
 				.forEach(event => {
+					if(!event.event || !event.key) {
+						console.error(new SyntaxError(`Invalid serialized event`));
+						console.log(event);
+						
+						return;
+					}
+
 					infGa(event.event, event.key, event.value || null);
 				});
 			});
@@ -57,7 +64,7 @@ function infGa(event, key, value) {
 		// Restricted key
 		throw new SyntaxError(`Restricted interface call (event: '${event}', key: '${key}')`);
 	}
-	
+
 	// GA lib already loaded (instant call)
 	(ga || window.ga)(event, key, value);
 }

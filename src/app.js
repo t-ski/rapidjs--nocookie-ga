@@ -18,7 +18,7 @@ $this.clientModule("./client", {
 
 
 $this.endpoint((_, req) => {
-	const validityInterval = Math.round(new Date() / 1000 / 3600 / 24 / 4);
+	const validityInterval = Math.round(new Date() / 1000 / 3600 / 24 / ($this.pluginConfig.validity || 7));
 	const clientIdSource = `${req.ip};${validityInterval}`;
 	
 	return crypto
